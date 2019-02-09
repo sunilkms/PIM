@@ -8,6 +8,6 @@ Before you run this script you need to met with the following requirement
 > "Install-module AzureAD"
 2. Register the Aazure App, find the steps to register app on the link below.
 3. Make sure the ID you are using the report have one of the following role active.
-4. Privileged Role Administrator, Global Administrator, Security Administrator, or Security Reader.
+**Privileged Role Administrator, Global Administrator, Security Administrator, or Security Reader**
 
 The Report has company Tab which is environment specific it will show up empty, modify it as per your environment.
