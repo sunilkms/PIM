@@ -1,4 +1,4 @@
-***** List Privileged Role Assignments *****
+## List Privileged Role Assignments ##
 
 This script will generate CSV report containg members assigned to each privilege role
 
