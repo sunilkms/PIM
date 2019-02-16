@@ -7,8 +7,6 @@
 # and will disable the role, cancel action do nothing.
 #---------------------------------------------------
 #if not installed alredy, install instruction https://www.sunilchauhan.info/2018/11/azure-ad-privileged-identity-management.html
-
-$cred = Get-Credential
 Function ConnectPIM 
 {
   [CmdletBinding]
