@@ -7,20 +7,16 @@
 # and will disable the role, cancel action do nothing.
 #---------------------------------------------------
 #if not installed alredy, install instruction https://www.sunilchauhan.info/2018/11/azure-ad-privileged-identity-management.html
-Function ConnectPIM 
-{
+Function ConnectPIM {
   [CmdletBinding]
-
 	Try	{
 		"Trying connecting to PIM Service"
         $Global:Pstital = "PIM | " + $($Host.UI.RawUI.WindowTitle) 
-		Connect-PimService -Credential $Cred -ea Stop
-        
+		Connect-PimService -Credential $Cred -ea Stop    
 		} 
 	catch {
 		Write-Verbose "Failed to connect, now trying using MFA.."
-
-       if($cred) {Connect-PimService -UserName $Cred.UserName} else {Connect-PimService}
+       		if($cred) {Connect-PimService -UserName $Cred.UserName} else {Connect-PimService}
 	      }
 }
 
@@ -62,31 +58,29 @@ $DropDownBox.DropDownHeight = 200
 $Form.Controls.Add($DropDownBox) 
 
 $wksList=@(1..10)
-
 foreach ($wks in $wksList) {
-                      [void]$DropDownBox.Items.Add($wks)
-                              }
-
+                      		[void]$DropDownBox.Items.Add($wks)
+                           }
+			   
 $form.Controls.Add($DropDownBox)
-
 $form.Topmost = $true
-
 $result = $form.ShowDialog()
-
 if ($result -eq [System.Windows.Forms.DialogResult]::OK)
-{
-    $x = $DropDownBox.SelectedItem
-    $x
-}
-
+	{
+    	$x = $DropDownBox.SelectedItem
+    	$x
+	}
 }
 
 #Get your current active roles
 Function GetActivePIMRoles {
-# connect Pim Service is not alredy connected.
 
+# connect Pim Service is not alredy connected.
 if (!(Show-PimServiceConnection).TenantName) {connectPim}
-$SelectedRoles = Get-PrivilegedRoleAssignment | Out-GridView -Title "Select the Role to activate or Deactivate" -PassThru
+
+#Get Roles
+$SelectedRoles = Get-PrivilegedRoleAssignment | select RoleId,RoleName,IsElevated,IsPermanent,@{N="ExpirationDateTime";E={$_.ExpirationDateTime.LocalDateTime}}`
+|Out-GridView -Title "Select the Role to activate or Deactivate" -PassThru
 
 if ($SelectedRoles.count -gt 0) 
 {
@@ -96,8 +90,7 @@ foreach ($Role in $SelectedRoles)
                         {
                         Disable-PrivilegedRoleAssignment -RoleId $role.RoleId
                         } 
-    else {
-            
+    else {    
             if (!($h)) {$h = gethours }
             if ($h) {
                     Enable-PrivilegedRoleAssignment -Reason "Activation for the Shift" -RoleId $role.RoleId -Duration $h
@@ -108,7 +101,6 @@ foreach ($Role in $SelectedRoles)
            }
     }
  } 
-else 
-{write-host "No Roles were selected to enable or disable" -ForegroundColor Yellow}
-
+else
+	{write-host "No Roles were selected to enable or disable" -ForegroundColor Yellow}
 }
