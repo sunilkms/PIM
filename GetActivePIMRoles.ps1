@@ -82,7 +82,7 @@ if (!(Show-PimServiceConnection).TenantName) {connectPim}
 $SelectedRoles = Get-PrivilegedRoleAssignment | select RoleId,RoleName,IsElevated,IsPermanent,@{N="ExpirationDateTime";E={$_.ExpirationDateTime.LocalDateTime}}`
 |Out-GridView -Title "Select the Role to activate or Deactivate" -PassThru
 
-if ($SelectedRoles.count -gt 0) 
+if ($SelectedRoles.RoleID.count -gt 0) 
 {
 foreach ($Role in $SelectedRoles) 
     {
